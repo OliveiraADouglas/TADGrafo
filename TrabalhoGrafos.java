@@ -1,4 +1,3 @@
-import TipoVertice.*;
 import java.util.Scanner;
 
 public class TrabalhoGrafos {
@@ -25,6 +24,8 @@ public class TrabalhoGrafos {
                      caminhoEuler = matrizAdjacencias + 1;
                      
     static String caminhoGrafo = "/home/douglas/.NetBeansProjects/TrabalhoGrafos/grafoConexo3Vertices";
+
+	private static Scanner entrada;
     
     public static void main(String[] args) {
         Grafo g = new Grafo(caminhoGrafo);
@@ -32,7 +33,7 @@ public class TrabalhoGrafos {
         Aresta a;
         int opcao = 1;
         String nome;
-        Scanner entrada = new Scanner(System.in);
+        entrada = new Scanner(System.in);
         
         menu();
         while (opcao != 0) {
