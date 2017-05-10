@@ -189,6 +189,15 @@ public final class Grafo{
     			}
     		}
     	}
+        
+        //imprime a matriz de resultado
+    	System.out.println("\nWarshall");
+        for (int i = 0; i < n; ++i){
+        	System.out.print(this.vertices.get(i).getNome() + " ");
+            for (int j = 0; j < n; ++j)
+                System.out.print(M[i][j] + " ");
+            System.out.println();
+        }
     	
 		return M;
     }
