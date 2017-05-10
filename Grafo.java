@@ -172,6 +172,45 @@ public final class Grafo{
         return matrizAdjacencia;
     }
     
+    public void getCaminhoMinimo(){
+    	//utiliza o algoritmo de Dijkstra
+    	
+    }
+    
+    
+    public int[][] getWarshall(){
+    	int M[][] = this.getMatrizAdjacencia();
+    	int n = this.vertices.size();
+    	
+    	for (int k = 0; k < n ;k++){
+    		for (int i = 0; i < n; i++){
+    			for (int j = 0; j < n; j++ ){
+    				M[i][j] = opOr(M[i][j], opAnd(M[i][k], M[k][j]));
+    			}
+    		}
+    	}
+    	
+		return M;
+    }
+    
+    private int opAnd (int i, int j){ //faz and lógico entre i e j. Ambos tem que ter valor 0 ou 1
+    	int resultado = 0;
+    	
+    	if(i == 1 && j == 1)
+    		resultado = 1;
+    	
+    	return resultado;
+    }
+    
+    private int opOr (int i, int j){ //faz or lógico entre i e j. Ambos tem que ter valor 0 ou 1
+    	int resultado = 1;
+    	
+    	if(i == 0 && j == 0)
+    		resultado = 0;
+    	
+    	return resultado;
+    }
+    
     private boolean grauPar(){ //usada em getEuler
         int i;
         
