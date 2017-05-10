@@ -21,9 +21,10 @@ public class TrabalhoGrafos {
                      isConexo = grauMaximo + 1,
                      isCompleto = isConexo + 1,
                      matrizAdjacencias = isCompleto + 1,
-                     caminhoEuler = matrizAdjacencias + 1;
+                     caminhoEuler = matrizAdjacencias + 1,
+					 warshall = caminhoEuler + 1;
                      
-    static String caminhoGrafo = "/home/douglas/.NetBeansProjects/TrabalhoGrafos/grafoConexo3Vertices";
+    static String caminhoGrafo = "/home/douglas/.workspace/TrabalhoGrafos/src/Exemplos Grafos/grafoConexo3Vertices";
 
 	private static Scanner entrada;
     
@@ -147,7 +148,11 @@ public class TrabalhoGrafos {
                 case matrizAdjacencias:
                     g.getMatrizAdjacencia();
                     break;
-                
+                    
+                case warshall:
+                    g.getWarshall();
+                    break;
+                    
                 case sair:
                     System.out.println("Sair");
                     break;
@@ -171,7 +176,8 @@ public class TrabalhoGrafos {
         System.out.println(isConexo + " - Verificar se é conexo");
         System.out.println(isCompleto + " - Verificar se é completo");
         System.out.println(matrizAdjacencias + " - Mostrar matriz de adjacências");
-        System.out.println(caminhoEuler + " - mostrar caminho de Euler");
+        System.out.println(caminhoEuler + " - Mostrar caminho de Euler");
+        System.out.println(warshall + " - Aplicar Algoritmo de Warshall na matriz de adjacências");
         System.out.println(sair + " - Sair ");
     }
 }
