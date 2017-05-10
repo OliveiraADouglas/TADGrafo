@@ -1,0 +1,11 @@
+vert1 vert2 vert3
+
+;
+
+vert1 vert2 1
+
+vert1 vert3 1
+
+vert2 vert3 1
+
+vert1 vert1 1
