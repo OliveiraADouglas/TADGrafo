@@ -2,6 +2,7 @@
 Tipo abstrato de dados para controlar um grafo
 
 Autor: Douglas Almeida de Oliveira
+Última atualização: 11/05/2017 11:45
 
 Aqui estão informadas todas as funções desse projeto e a data que foram adicionadas a ele
 
@@ -10,6 +11,7 @@ Update log:
 	- Carrega as informações do disco. Veja ajuda para saber o padrão do arquivo para leitura correta
 	- Adiciona e remove um vértice
 	- Adiciona e remove uma aresta
+	- Se o grafo for dirigido, a aresta se comporta de forma diferente. Para grafos não dirigidos, é possível ir de um vertice a outro pela mesma aresta.
 	- Retorna grau de um vértice
 	- Retorna o grau maior, grau menor e grau médio de todo o grafo
 	- Sabe se existe um caminho de Euler
@@ -25,12 +27,13 @@ Update log:
 	- Nome dos dois vértices
 	- Peso da aresta
 	
+	
 
 
 Ajuda:
 * Para carregar o grafo de um arquivo:
 	- O arquivo deve ter esse padrão:
-		1
+		true
 		nomeVertice1 nomeVertice2 nomeVertice3
 		;
 		nomeVertice1 nomeVertice2 pesoDaAresta
