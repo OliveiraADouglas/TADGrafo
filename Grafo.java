@@ -11,14 +11,15 @@
 
 /*
     Estrutura do arquivo que guarda os dados dos grafos deve ser a seguinte:
-
+	éDirigido?
     nomeVertice1 nomeVertice2 ... nomeVerticeN 
     ;
     nomeVertice1 nomeVertice2 peso
     nomeVerticeN nomeVerticeN peso
 
-    Primeira linha contém os nomes dos vértices
-    Segunda linha contém os pares para as arestas   
+	Primeira linha deve ser true/false que indica se o grafo é dirigido ou não
+    Segunda linha contém os nomes dos vértices
+    Terceira linha contém os pares para as arestas   
     Eles são divididos pelo caractere ";"
     TEM QUE EXISTIR PESO, MESMO QUE SEJA IRRELEVANTE
 */
@@ -31,11 +32,18 @@ import java.util.Scanner;
 public final class Grafo{
     private ArrayList<Vertice> vertices; //guarda os vértices
     private ArrayList<Aresta> arestas; //guarda as arestas
-    boolean dirigido;
+    boolean isDirigido;
    
     public Grafo(){ //construtor sem arquivo
         vertices = new ArrayList<Vertice>(); 
         arestas = new ArrayList<Aresta>();
+        isDirigido = false;
+    }
+    
+    public Grafo(boolean d){
+        vertices = new ArrayList<Vertice>(); 
+        arestas = new ArrayList<Aresta>();
+        isDirigido = d;
     }
     
     public Grafo(String nomeDoArquivo){ //construtor que carrega os dados do arquivo
@@ -43,12 +51,12 @@ public final class Grafo{
         this.carregarArquivo(nomeDoArquivo);
     }
     
-//    Getters
-     public Vertice getVertice(int posicao){ //retorna vertice pela posição na lista
+//    Getters  
+    public Vertice getVertice(int posicao){ //retorna vertice pela posição na lista
         return this.vertices.get(posicao);
     }
     
-    public Vertice getVertice(String nome){ //retorna vertice pelo nome
+	public Vertice getVertice(String nome){ //retorna vertice pelo nome
         for(int i = 0; i < this.vertices.size(); ++i)
             if(nome.equals(this.vertices.get(i).getNome())) //se o nome requerido for o mesmo que foi recebido da lista
                 return this.vertices.get(i); //retorna objeto
@@ -175,9 +183,21 @@ public final class Grafo{
     
     public void getCaminhoMinimo(){
     	//utiliza o algoritmo de Dijkstra
+//    	Inicializa o conjunto IN e os vetores d e s
+//    	Enquanto y não pertence a IN faça	// loop enquanto recalcula o vetor d
+//    		p = calcula o vértice de distancia mínima onde p  IN
+//    		IN = IN  {p}
+//    		Para todos os vértices z não pertencentes a IN faça
+//    			distanciaAnterior = d[z]
+//    			d[z] = min(d[z], d[p] + A[p,z])
+//    			Se d[z]  distanciaAnterior então s[z] = p
+//    		Fim para
+//    	Fim Enquanto
+//    	Imprime o Caminho
+    	
+    	
     	
     }
-    
     
     public int[][] getWarshall(){
     	int M[][] = this.getMatrizAdjacencia();
@@ -232,8 +252,7 @@ public final class Grafo{
         
         return true;
     }
-            
-            
+    
     public void getEuler(){
         if (!this.isConexo() || !grauPar()){ //se o grafo não é conexo ou se todos os graus não forem par
             System.out.println("Não existe caminho de Euler");
@@ -304,25 +323,44 @@ public final class Grafo{
     }
     
     public void removeAresta(Aresta a){
-        for(int i = 0; i < this.arestas.size(); ++i)
-            if(a.getVertice1().getNome().equals(this.arestas.get(i).getVertice1().getNome()) && 
-               a.getVertice2().getNome().equals(this.arestas.get(i).getVertice2().getNome())){ 
-               //se o nome do vertice for igual a um dos dois vertices da aresta
-                        this.arestas.remove(i);
-                        System.out.println(a.getVertice1().getNome() + " ---- " + a.getVertice2().getNome() + " removida");
-                        return; //força a saída do método
-            }
-            //testa as arestas com as posições invertidas
-            else if(a.getVertice1().getNome().equals(this.arestas.get(i).getVertice2().getNome()) && 
-                    a.getVertice2().getNome().equals(this.arestas.get(i).getVertice1().getNome())){
-                        this.arestas.remove(i);
-                        return; //força a saída do método
-            }
+    	if (isDirigido){
+    		for(int i = 0; i < this.arestas.size(); ++i)
+	            if(a.getVertice1().getNome().equals(this.arestas.get(i).getVertice1().getNome()) && 
+	               a.getVertice2().getNome().equals(this.arestas.get(i).getVertice2().getNome())){ 
+	               //se o nome do vertice for igual a um dos dois vertices da aresta
+	                        this.arestas.remove(i);
+	                        System.out.println(a.getVertice1().getNome() + " ---- " + a.getVertice2().getNome() + " removida");
+	                        return; //força a saída do método
+	            }
+    		
+    	}
+    	
+    	//se o grafo não for dirigido
+	    else
+	        for(int i = 0; i < this.arestas.size(); ++i){
+	            if(a.getVertice1().getNome().equals(this.arestas.get(i).getVertice1().getNome()) && 
+	               a.getVertice2().getNome().equals(this.arestas.get(i).getVertice2().getNome())){ 
+	               //se o nome do vertice for igual a um dos dois vertices da aresta
+	                        this.arestas.remove(i);
+	                        System.out.println(a.getVertice1().getNome() + " ---- " + a.getVertice2().getNome() + " removida");
+	                        return; //força a saída do método
+	            }	
+	            //testa as arestas com as posições invertidas
+	            else if(a.getVertice1().getNome().equals(this.arestas.get(i).getVertice2().getNome()) && 
+	                    a.getVertice2().getNome().equals(this.arestas.get(i).getVertice1().getNome())){
+	                        this.arestas.remove(i);
+	                        System.out.println(a.getVertice1().getNome() + " ---- " + a.getVertice2().getNome() + " removida");
+	                        return; //força a saída do método
+	            }
+	        }
+
+    	System.out.println(a.getVertice1().getNome() + " ---- " + a.getVertice2().getNome() + " não existe");
     }
     
     public void removeAresta(int i){
         this.arestas.remove(i);
     }
+    
     public void imprimeArestas(){
         for(int i = 0; i < this.arestas.size(); ++i)
             System.out.println(this.arestas.get(i).getVertice1().getNome() + " ---- " + this.arestas.get(i).getVertice2().getNome());
@@ -330,7 +368,7 @@ public final class Grafo{
     }
     
     public boolean arestaExist (Aresta a){
-        if(this.dirigido){ //se o grafo for dirigido
+    	if(this.isDirigido){ //se o grafo for dirigido
         	for(int i = 0; i < this.arestas.size(); ++i){
 	            //verifica vertice1 da aresta com vertice1 da lista e vertice 2 da aresta com vertice2 da lista
 	            if(this.arestas.get(i).getVertice1().getNome().equals(a.getVertice1().getNome()) &&
@@ -359,6 +397,14 @@ public final class Grafo{
     }//fim do método arestaExist
     
 //    Métodos de grafo
+    public boolean isDirigido() {
+		return isDirigido;
+	}
+    
+    public void setDirigido(boolean isDirigido) {
+		this.isDirigido = isDirigido;
+	}
+
     public boolean isConexo(){ 
         //usa algoritmo de busca em nível
         
@@ -442,6 +488,9 @@ public final class Grafo{
             
             //lê do arquivo
             if (arqGrafoIn.hasNext()){ //se houver dados no arquivo
+                this.isDirigido = arqGrafoIn.nextBoolean(); //lê o flag que diz se o grafo é dirigido
+                System.out.println("É dirigido: " + isDirigido);
+                
                 //lê vértices
                 String leitura = arqGrafoIn.next(); //lê o primeiro valor
                 while(!leitura.equals(";")){ //enquanto não achar o caractere separador
@@ -471,6 +520,4 @@ public final class Grafo{
             System.out.println(ex);
         }
     }//fim da função carregarArquivo
-        
-    
 }//fim da classe
