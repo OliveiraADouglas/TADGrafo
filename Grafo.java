@@ -31,6 +31,7 @@ import java.util.Scanner;
 public final class Grafo{
     private ArrayList<Vertice> vertices; //guarda os vértices
     private ArrayList<Aresta> arestas; //guarda as arestas
+    boolean dirigido;
    
     public Grafo(){ //construtor sem arquivo
         vertices = new ArrayList<Vertice>(); 
@@ -329,18 +330,31 @@ public final class Grafo{
     }
     
     public boolean arestaExist (Aresta a){
-        for(int i = 0; i < this.arestas.size(); ++i){
-            //verifica vertice1 da aresta com vertice1 da lista e vertice 2 da aresta com vertice2 da lista
-            if(this.arestas.get(i).getVertice1().getNome().equals(a.getVertice1().getNome()) &&
-               this.arestas.get(i).getVertice2().getNome().equals(a.getVertice2().getNome())) //se o objeto requerido for o mesmo que foi recebido da lista
-                            return true; //retorna verdadeiro
-            
-            //verifica em posições invertidas
-            //vertice1 da aresta com vertice2 da lista e vertice 2 da aresta com vertice1 da lista
-            else if(this.arestas.get(i).getVertice1().getNome().equals(a.getVertice2().getNome()) &&
-                    this.arestas.get(i).getVertice2().getNome().equals(a.getVertice1().getNome())) //se o objeto requerido for o mesmo que foi recebido da lista
-                            return true; //retorna verdadeiro
+        if(this.dirigido){ //se o grafo for dirigido
+        	for(int i = 0; i < this.arestas.size(); ++i){
+	            //verifica vertice1 da aresta com vertice1 da lista e vertice 2 da aresta com vertice2 da lista
+	            if(this.arestas.get(i).getVertice1().getNome().equals(a.getVertice1().getNome()) &&
+	               this.arestas.get(i).getVertice2().getNome().equals(a.getVertice2().getNome())) //se o objeto requerido for o mesmo que foi recebido da lista
+	                            return true; //retorna verdadeiro
+        	}
+        	
+        	return false; //se não encontrou a aresta, retorna falso
         }
+    	
+	    else
+	    	//se o grafo não for dirigido, vai testar ambas as posições da aresta
+	    	for(int i = 0; i < this.arestas.size(); ++i){
+	            //verifica vertice1 da aresta com vertice1 da lista e vertice 2 da aresta com vertice2 da lista
+	            if(this.arestas.get(i).getVertice1().getNome().equals(a.getVertice1().getNome()) &&
+	               this.arestas.get(i).getVertice2().getNome().equals(a.getVertice2().getNome())) //se o objeto requerido for o mesmo que foi recebido da lista
+	                            return true; //retorna verdadeiro
+	            
+	            //verifica em posições invertidas
+	            //vertice1 da aresta com vertice2 da lista e vertice 2 da aresta com vertice1 da lista
+	            else if(this.arestas.get(i).getVertice1().getNome().equals(a.getVertice2().getNome()) &&
+	                    this.arestas.get(i).getVertice2().getNome().equals(a.getVertice1().getNome())) //se o objeto requerido for o mesmo que foi recebido da lista
+	                            return true; //retorna verdadeiro
+	        }
         return false;
     }//fim do método arestaExist
     
