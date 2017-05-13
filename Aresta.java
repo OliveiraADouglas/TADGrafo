@@ -25,14 +25,13 @@ public class Aresta {
         return Vertice2;
     }
     
-    public void setPeso(float peso) {
-        this.Peso = peso;
-//        if(peso < menorPeso) //se o peso que quiser ser inserido for menor que o mínimo possível
-//            this.Peso = menorPeso;
-    }
-    
     public float getPeso() {
         return Peso;
+    }
+    
+    public void setPeso(float peso) {
+        if(peso < menorPeso) //se o peso que quiser ser inserido for menor que o mínimo possível
+            this.Peso = menorPeso;
     }
 
     public void setNomeVertice1(String nome) {
