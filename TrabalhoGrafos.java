@@ -7,8 +7,9 @@ public class TrabalhoGrafos {
                      adicionarVertice = carregarArquivo + 1,
                      mostrarVertices = adicionarVertice + 1,
                      mostrarAdjacentes = mostrarVertices + 1,
+                     mudarDirigido = mostrarAdjacentes + 1,
                      
-                     adicionarAresta = mostrarAdjacentes + 1,
+                     adicionarAresta = mudarDirigido + 1,
                      verificarAresta = adicionarAresta + 1,
                      mostrarArestas = verificarAresta + 1,
                      removerAresta = mostrarArestas + 1,
@@ -21,7 +22,8 @@ public class TrabalhoGrafos {
                      isConexo = grauMaximo + 1,
                      isCompleto = isConexo + 1,
                      matrizAdjacencias = isCompleto + 1,
-                     caminhoEuler = matrizAdjacencias + 1,
+                     matrizPeso = matrizAdjacencias + 1,
+                     caminhoEuler = matrizPeso + 1,
 					 warshall = caminhoEuler + 1;
                      
     static String caminhoGrafo = "/home/douglas/.workspace/TrabalhoGrafos/src/Exemplos Grafos/grafoConexo3Vertices";
@@ -146,12 +148,23 @@ public class TrabalhoGrafos {
                     break;
                 
                 case matrizAdjacencias:
-                    g.getMatrizAdjacencia();
+                    g.getMatrizAdjacencia(true);
                     break;
+                
+                case matrizPeso:
+                	g.getMatrizPeso(true);
+                	break;
                     
                 case warshall:
-                    g.getWarshall();
+                    g.getWarshall(true);
                     break;
+                    
+                case mudarDirigido:
+                	System.out.print("true/false: ");
+                	boolean b = entrada.nextBoolean();
+                	g.setDirigido(b);
+                	System.out.println();
+                	break;
                     
                 case sair:
                     System.out.println("Sair");
@@ -164,7 +177,8 @@ public class TrabalhoGrafos {
         System.out.println(carregarArquivo + " - Carregar novo grafo");
         System.out.println(adicionarVertice + " - Inserir um novo vertice");
         System.out.println(mostrarVertices + " - Mostrar vertices");        
-        System.out.println(mostrarAdjacentes + " - Mostrar vertices adjacentes:");
+        System.out.println(mostrarAdjacentes + " - Mostrar vertices adjacentes");
+        System.out.println(mudarDirigido + " - Mudar flag dirigido");
         System.out.println(adicionarAresta + " - Inserir aresta");
         System.out.println(verificarAresta + " - Verificar aresta");
         System.out.println(mostrarArestas + " - Mostrar arestas");
@@ -176,6 +190,7 @@ public class TrabalhoGrafos {
         System.out.println(isConexo + " - Verificar se é conexo");
         System.out.println(isCompleto + " - Verificar se é completo");
         System.out.println(matrizAdjacencias + " - Mostrar matriz de adjacências");
+        System.out.println(matrizPeso + " - Mostrar matriz de Pesos");
         System.out.println(caminhoEuler + " - Mostrar caminho de Euler");
         System.out.println(warshall + " - Aplicar Algoritmo de Warshall na matriz de adjacências");
         System.out.println(sair + " - Sair ");
