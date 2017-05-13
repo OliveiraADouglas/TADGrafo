@@ -8,7 +8,10 @@ public class Aresta {
     public Aresta(Vertice nomeVertice1, Vertice nomeVertice2, float Peso) {
         this.Vertice1 = nomeVertice1;
         this.Vertice2 = nomeVertice2;
-        this.Peso = Peso;
+        if (Peso < menorPeso)
+        	this.Peso = menorPeso;
+        else
+        	this.Peso = Peso;
     }
     
     public Aresta(Vertice nomeVertice1, Vertice nomeVertice2) {
@@ -30,8 +33,10 @@ public class Aresta {
     }
     
     public void setPeso(float peso) {
-        if(peso < menorPeso) //se o peso que quiser ser inserido for menor que o mínimo possível
-            this.Peso = menorPeso;
+        if (peso < menorPeso) //se o peso que quiser ser inserido for menor que o mínimo possível
+        	this.Peso = menorPeso;
+        else
+        	this.Peso = peso;
     }
 
     public void setNomeVertice1(String nome) {
