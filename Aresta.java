@@ -1,7 +1,7 @@
 
 
 public class Aresta {
-    private final int menorPeso = 0;
+    private final int menorPeso = 1;
     private Vertice Vertice1, Vertice2;
     private float Peso;
 
