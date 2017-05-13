@@ -32,7 +32,7 @@ import java.util.Scanner;
 public final class Grafo{
     private ArrayList<Vertice> vertices; //guarda os vértices
     private ArrayList<Aresta> arestas; //guarda as arestas
-    boolean isDirigido;
+    boolean isDirigido; //marca se o grafo é dirigido ou não
    
     public Grafo(){ //construtor sem arquivo
         vertices = new ArrayList<Vertice>(); 
@@ -135,20 +135,13 @@ public final class Grafo{
         
         return -1; //se não existir
     }
-    
+    	
     public int getQuantVertice(){ //retorna a quantidade de vértices do grafo
         return this.vertices.size();
     }
     
-//    private int[][] zerarMatriz(int [][] ma, int lin, int col){
-//        for (int i = 0; i < lin; ++i)
-//            for(int i2 = 0; i2 < col; ++i2)
-//                ma[i][i2] = 0;
-//        
-//        return ma;
-//    }
-    
-    public int[][] getMatrizAdjacencia(){
+    public int[][] getMatrizAdjacencia(boolean imprime){
+    	//conta com um flag que diz que a matriz deve ser imprimida depois do cálculo
         Aresta a;
         int quantVertice = this.vertices.size();
         int matrizAdjacencia [][] = new int[quantVertice][quantVertice];
@@ -159,26 +152,138 @@ public final class Grafo{
                 int quant = 0;
                 
                 if(arestaExist(a)){
-                    if(this.vertices.get(i).getNome().equals(this.vertices.get(i2).getNome()))
-                    //quando os dois vértices são iguais, conta como duas arestas. É um loop
-                        quant += 1;
-                    
-                    quant += 1;
+                    quant = 1;
                 }
                 
                 matrizAdjacencia[i][i2] = quant;
             }
         }
         
+        if(imprime)
+	        for(int i = 0; i < quantVertice; ++i){
+	            System.out.print(this.vertices.get(i).getNome() + " ");
+	            for(int i2 = 0; i2 < quantVertice; ++i2){
+	                System.out.printf("%d ", matrizAdjacencia[i][i2]);
+	            }
+	            System.out.println();
+	        }
+
+        return matrizAdjacencia;
+    }
+    
+    public int[][] getMatrizAdjacencia(){
+    	//Somente calcula e retorna a matriz
+        Aresta a;
+        int quantVertice = this.vertices.size();
+        int matrizAdjacencia [][] = new int[quantVertice][quantVertice];
+        
         for(int i = 0; i < quantVertice; ++i){
-            System.out.print(this.vertices.get(i).getNome() + " ");
             for(int i2 = 0; i2 < quantVertice; ++i2){
-                System.out.printf("%d ", matrizAdjacencia[i][i2]);
+                a = new Aresta(this.vertices.get(i), this.vertices.get(i2));
+                int quant = 0;
+                
+                if(arestaExist(a)){
+                    quant = 1;
+                }
+                
+                matrizAdjacencia[i][i2] = quant;
             }
-            System.out.println();
         }
         
         return matrizAdjacencia;
+    }
+    
+    public int[][] getWarshall(boolean imprime){
+    	int M[][] = this.getMatrizAdjacencia();
+    	int n = this.vertices.size();
+    	
+    	for (int k = 0; k < n ;k++){
+    		for (int i = 0; i < n; i++){
+    			for (int j = 0; j < n; j++ ){
+    				M[i][j] = opOr(M[i][j], opAnd(M[i][k], M[k][j]));
+    			}
+    		}
+    	}
+        
+        if (imprime)//imprime a matriz de resultado
+           	for (int i = 0; i < n; ++i){
+           		System.out.print(this.vertices.get(i).getNome() + " ");
+           		for (int j = 0; j < n; ++j)
+           			System.out.print(M[i][j] + " ");
+           		System.out.println();
+           	}
+    	
+		return M;
+    }
+    
+    public int[][] getWarshall(){
+    	int M[][] = this.getMatrizAdjacencia();
+    	int n = this.vertices.size();
+    	
+    	for (int k = 0; k < n ;k++){
+    		for (int i = 0; i < n; i++){
+    			for (int j = 0; j < n; j++ ){
+    				M[i][j] = opOr(M[i][j], opAnd(M[i][k], M[k][j]));
+    			}
+    		}
+    	}    	
+		return M;
+    }
+
+    private int opAnd (int i, int j){ //faz and lógico entre i e j. Ambos tem que ter valor 0 ou 1
+    	int resultado = 0;
+    	
+    	if(i == 1 && j == 1)
+    		resultado = 1;
+    	
+    	return resultado;
+    }
+    
+    private int opOr (int i, int j){ //faz or lógico entre i e j. Ambos tem que ter valor 0 ou 1
+    	int resultado = 1;
+    	
+    	if(i == 0 && j == 0)
+    		resultado = 0;
+    	
+    	return resultado;
+    }
+   
+    public float[][] getMatrizPeso(boolean imprime){
+        int quantVertice = this.vertices.size();
+    	float mp [][] = new float [quantVertice][quantVertice];
+    	Aresta a;
+    	
+    	for (int i = 0; i < quantVertice; ++i)
+    		for (int j = 0; j < quantVertice; ++j){
+    			a = new Aresta (this.vertices.get(i), this.vertices.get(j));
+    			
+    			mp[i][j] = this.getPesoAresta(a); 
+    		}
+    	
+    	if(imprime)
+	        for(int i = 0; i < quantVertice; ++i){
+	            System.out.print(this.vertices.get(i).getNome() + " ");
+	            for(int i2 = 0; i2 < quantVertice; ++i2){
+	                System.out.printf("%.1f ", mp[i][i2]);
+	            }
+	            System.out.println();
+	        }
+
+    	return mp;
+    }
+    
+    public float[][] getMatrizPeso(){
+        int quantVertice = this.vertices.size();
+    	float mp [][] = new float [quantVertice][quantVertice];
+    	Aresta a;
+    	
+    	for (int i = 0; i < quantVertice; ++i)
+    		for (int j = 0; j < quantVertice; ++j){
+    			a = new Aresta (this.vertices.get(i), this.vertices.get(j));
+    			
+    			mp[i][j] = this.getPesoAresta(a); 
+    		}
+       	return mp;
     }
     
     public void getCaminhoMinimo(){
@@ -198,49 +303,7 @@ public final class Grafo{
     	
     	
     }
-    
-    public int[][] getWarshall(){
-    	int M[][] = this.getMatrizAdjacencia();
-    	int n = this.vertices.size();
-    	
-    	for (int k = 0; k < n ;k++){
-    		for (int i = 0; i < n; i++){
-    			for (int j = 0; j < n; j++ ){
-    				M[i][j] = opOr(M[i][j], opAnd(M[i][k], M[k][j]));
-    			}
-    		}
-    	}
         
-        //imprime a matriz de resultado
-    	System.out.println("\nWarshall");
-        for (int i = 0; i < n; ++i){
-        	System.out.print(this.vertices.get(i).getNome() + " ");
-            for (int j = 0; j < n; ++j)
-                System.out.print(M[i][j] + " ");
-            System.out.println();
-        }
-    	
-		return M;
-    }
-    
-    private int opAnd (int i, int j){ //faz and lógico entre i e j. Ambos tem que ter valor 0 ou 1
-    	int resultado = 0;
-    	
-    	if(i == 1 && j == 1)
-    		resultado = 1;
-    	
-    	return resultado;
-    }
-    
-    private int opOr (int i, int j){ //faz or lógico entre i e j. Ambos tem que ter valor 0 ou 1
-    	int resultado = 1;
-    	
-    	if(i == 0 && j == 0)
-    		resultado = 0;
-    	
-    	return resultado;
-    }
-    
     private boolean grauPar(){ //usada em getEuler
         int i;
         
@@ -280,7 +343,7 @@ public final class Grafo{
         System.out.println(this.getQuantVertice() + " vertices");
     }
     
-    public void imprimeAdjacentes(Vertice v){
+    public ArrayList<Aresta> imprimeAdjacentes(Vertice v){
         ArrayList<Aresta> va = this.getAdjacente(v);
         
         for(int i = 0; i < va.size(); ++i){
@@ -290,6 +353,8 @@ public final class Grafo{
             else //caso contrário
                 System.out.println(va.get(i).getVertice1().getNome()); //imprime o adjacente a ele
         }
+        
+        return va;
     }
     
     public boolean verticeExist (Vertice v){
@@ -297,7 +362,6 @@ public final class Grafo{
             if(this.vertices.get(i).getNome().equals(v.getNome())) //se o objeto requerido for o mesmo que foi recebido da lista
                 return true; //retorna verdadeiro
             
-
         return false; //se não existir, retorna falso
     }
     
@@ -363,10 +427,38 @@ public final class Grafo{
     
     public void imprimeArestas(){
         for(int i = 0; i < this.arestas.size(); ++i)
-            System.out.println(this.arestas.get(i).getVertice1().getNome() + " ---- " + this.arestas.get(i).getVertice2().getNome());
-        
+            System.out.println(this.arestas.get(i).getVertice1().getNome() + " ---- " + this.arestas.get(i).getVertice2().getNome());  
     }
     
+    public float getPesoAresta(Aresta a){
+    	//se a aresta não existe, retorna 0
+    	
+    	if (isDirigido){
+    		for(int i = 0; i < this.arestas.size(); ++i)
+	            if(a.getVertice1().getNome().equals(this.arestas.get(i).getVertice1().getNome()) && 
+	               a.getVertice2().getNome().equals(this.arestas.get(i).getVertice2().getNome())){ 
+	                        return this.arestas.get(i).getPeso(); //força a saída do método
+	            }
+    		
+    	}
+    	
+    	//se o grafo não for dirigido
+	    else
+	        for(int i = 0; i < this.arestas.size(); ++i){
+	            if(a.getVertice1().getNome().equals(this.arestas.get(i).getVertice1().getNome()) && 
+	               a.getVertice2().getNome().equals(this.arestas.get(i).getVertice2().getNome())){ 
+	               //se o nome do vertice for igual a um dos dois vertices da aresta
+	            		return this.arestas.get(i).getPeso(); //força a saída do método
+	            }	
+	            //testa as arestas com as posições invertidas
+	            else if(a.getVertice1().getNome().equals(this.arestas.get(i).getVertice2().getNome()) && 
+	                    a.getVertice2().getNome().equals(this.arestas.get(i).getVertice1().getNome())){
+	            			return this.arestas.get(i).getPeso(); //força a saída do método
+	            }
+	        }
+
+    	return 0;
+    }
     public boolean arestaExist (Aresta a){
     	if(this.isDirigido){ //se o grafo for dirigido
         	for(int i = 0; i < this.arestas.size(); ++i){
@@ -402,7 +494,12 @@ public final class Grafo{
 	}
     
     public void setDirigido(boolean isDirigido) {
-		this.isDirigido = isDirigido;
+
+    	try{
+    		this.isDirigido = isDirigido;
+    	}catch(Exception e){
+    		
+    	}
 	}
 
     public boolean isConexo(){ 
