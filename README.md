@@ -2,13 +2,14 @@
 Tipo abstrato de dados para controlar um grafo
 
 Autor: Douglas Almeida de Oliveira
-Última atualização: 13/05/2017 20:40
+Última atualização: 17/05/2017 13h
 
 Update log:
 * Classe Grafo:
 	- Uma lista que armazena os vértices.
 	- Uma lista que armazena as arestas.
 	- Atributo que diz se o grafo é dirigido. (11/05/2017)
+		- é falso por padrão.
 		- set e get.
 	- Carrega as informações do disco. Veja ajuda para saber o padrão do arquivo para leitura correta.
 	- Sabe se existe um caminho de Euler.
@@ -24,6 +25,8 @@ Update log:
 	- Método privado que faz operação and lógico entre duas variáveis numéricas sendo que devem ter valor 1 ou 0. (11/05/2017)
 	- Método privado que faz operação or lógico entre duas variáveis numéricas sendo que devem ter valor 1 ou 0. (11/05/2017)
 	- Método privado que põe 0 em todas as posições de uma matriz. (11/05/2017)
+	- Método privado que calcula o menor valor de uma lista float (17/05/2017)
+	- Calcula o caminho mínimo entre dois vértices com algoritmo de Dijkstra. (17/05/2017) INCOMPLETO
 
 	- Métodos relacionados a Vértices:
 		- Adiciona.
@@ -35,13 +38,17 @@ Update log:
 		- Imprime os vértices adjacentes ao passado por parâmentro e retorna uma lista com as aresta conectadas a ele.
 		- Diz se vértice passado por parametro existe no grafo.
 		- Método privado que testa se um vértice existe numa lista de vértices, ambos passados por parâmetros.
+		- Método privado que retorna a posição de um vértice na lista de vértices. (17/05/2017)
+			-Retorna -1 se o vértice não for achado.
 
 	- Métodos relacionados a Aresta:
 		- Se o grafo for dirigido, a aresta se comporta de forma diferente. Para grafos não dirigidos, é possível ir de um vertice a outro pela mesma aresta. (11/05/2017)
 		- Adiciona e remove uma aresta passada por parametro ou pela posicao na lista.
 		- Diz se aresta passada por parâmetro existe no grafo.
-		- Retorna o peso de uma aresta. Se a aresta não existir, retorna 0. (13/05/2017)
-	
+		- Retorna o peso de uma aresta. (13/05/2017)
+			- Se a aresta não existir, retorna -1.
+			- Se é uma aresta de um vértice com ele mesmo, então retorna 0 (17/05/2017)
+
 * Classe Vértice:
 	- Nome do vértice que é o que o identifica.
 
