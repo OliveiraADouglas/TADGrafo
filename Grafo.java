@@ -64,6 +64,14 @@ public final class Grafo{
         return null; //retorna nulo se não achar objeto
     }
     
+	private int getIVertice(Vertice v){ //retorna a posição do vértice na lista de vértices
+		for(int i = 0; i < this.vertices.size(); ++i)
+			if (this.vertices.get(i).getNome().equals(v.getNome()))
+				return i;		
+		
+		return -1;
+	}
+	
     public ArrayList<Aresta> getAdjacente(Vertice v){ //retorna uma lista que contém todas as arestas referentes a v
         ArrayList<Aresta> adjacentes = new ArrayList<Aresta>(); //inicia a lista
         
@@ -285,23 +293,70 @@ public final class Grafo{
     		}
        	return mp;
     }
+
+    private int posicaoMenorValor(ArrayList<Float> l){ //retorna a posicao do menor valor da lista
+    	int posicao = 0;
+    	float menor = 0;
+    	
+    	//põe o primeiro menor valor encontrado na lista
+    	while (menor <= 0){
+    		menor = l.get(posicao);
+    		++posicao;
+    	}
+    	
+    	//calcula o menor valor
+    	for(int i = 0; i < l.size(); ++i){
+    		if(l.get(i) < menor && l.get(i) > 0.0){ 
+    			menor = l.get(i);
+    			posicao = i;
+    		}    			
+    	}
+    	
+    	return posicao;
+    }
     
-    public void getCaminhoMinimo(){
+    public ArrayList<Vertice> getCaminhoMinimo(Vertice vInicio, Vertice vDestino){
     	//utiliza o algoritmo de Dijkstra
-//    	Inicializa o conjunto IN e os vetores d e s
-//    	Enquanto y não pertence a IN faça	// loop enquanto recalcula o vetor d
+
+//    	Inicializa o conjunto IN e os vetores distancias e caminho
+    	ArrayList<Float> distancias = new ArrayList<Float>();
+    	ArrayList<Vertice> caminho = new ArrayList<Vertice>(),
+    					   IN = new ArrayList<Vertice>();
+    	int quantVerticesForaDeIN = this.vertices.size() - 1, //guarda a quantidade de vértices que estão fora da lista IN
+    		posicaoVNaMatriz, //guarda a posiçao da linha da matriz das adjacencias de um vertice
+    		quantVGrafo = this.vertices.size(); //guarda a quantidade de vertices no grafo
+    	float matrizPeso[][] = this.getMatrizPeso();
+    	
+    	IN.add(vInicio);
+    	posicaoVNaMatriz = this.getIVertice(vInicio);
+    	
+    	for(int i = 0; i < quantVGrafo; ++i){
+    		distancias.add(matrizPeso[posicaoVNaMatriz][i]);
+    		caminho.add(vInicio);
+    	}
+    	
+//    	Enquanto vDestino não pertence a IN faça	// loop enquanto recalcula o vetor distancias    	
+    	while(!this.existe(vDestino, IN)){
+
 //    		p = calcula o vértice de distancia mínima onde p  IN
 //    		IN = IN  {p}
+    		IN.add(this.vertices.get(posicaoMenorValor(distancias)));
+    		--quantVerticesForaDeIN;
+    		
 //    		Para todos os vértices z não pertencentes a IN faça
+    		for(int i = 0; i < quantVerticesForaDeIN; ++i){
 //    			distanciaAnterior = d[z]
 //    			d[z] = min(d[z], d[p] + A[p,z])
 //    			Se d[z]  distanciaAnterior então s[z] = p
-//    		Fim para
-//    	Fim Enquanto
+    		}//Fim para
+    	}//Fim Enquanto
+
+    	
 //    	Imprime o Caminho
+    	for(int i = 0; i < caminho.size(); ++i)
+    		System.out.print(caminho.get(i).getNome() + "    ");
     	
-    	
-    	
+    	return IN;
     }
         
     private boolean grauPar(){ //usada em getEuler
@@ -367,7 +422,6 @@ public final class Grafo{
     
     private boolean existe(Vertice v, ArrayList<Vertice> l){
         //testa se o vertice existe na lista
-        //uso no método isConexo
         
         for(int i = 0; i < l.size(); ++i)
             if(l.get(i).getNome().equals(v.getNome())) //se o objeto requerido for o mesmo que foi recebido da lista
@@ -431,11 +485,15 @@ public final class Grafo{
     }
     
     public float getPesoAresta(Aresta a){
-    	//se a aresta não existe, retorna 0
+    	//se a aresta não existe, retorna -1
+    	//se é uma aresta de um vértice com ele mesmo, então o peso é 0
+    	
+    	if(a.getVertice1().getNome().equals(a.getVertice2().getNome()))
+    		return 0;
     	
     	if (isDirigido){
     		for(int i = 0; i < this.arestas.size(); ++i)
-	            if(a.getVertice1().getNome().equals(this.arestas.get(i).getVertice1().getNome()) && 
+    			if(a.getVertice1().getNome().equals(this.arestas.get(i).getVertice1().getNome()) && 
 	               a.getVertice2().getNome().equals(this.arestas.get(i).getVertice2().getNome())){ 
 	                        return this.arestas.get(i).getPeso(); //força a saída do método
 	            }
@@ -457,7 +515,7 @@ public final class Grafo{
 	            }
 	        }
 
-    	return 0;
+    	return -1;
     }
     public boolean arestaExist (Aresta a){
     	if(this.isDirigido){ //se o grafo for dirigido
