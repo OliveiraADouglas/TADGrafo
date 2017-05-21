@@ -322,8 +322,7 @@ public final class Grafo{
     	ArrayList<Float> distancias = new ArrayList<Float>();
     	ArrayList<Vertice> caminho = new ArrayList<Vertice>(),
     					   IN = new ArrayList<Vertice>();
-    	int quantVerticesForaDeIN = this.vertices.size() - 1, //guarda a quantidade de vértices que estão fora da lista IN
-    		posicaoVNaMatriz, //guarda a posiçao da linha da matriz das adjacencias de um vertice
+    	int posicaoVNaMatriz, //guarda a posiçao da linha da matriz das adjacencias de um vertice
     		quantVGrafo = this.vertices.size(); //guarda a quantidade de vertices no grafo
     	float matrizPeso[][] = this.getMatrizPeso();
     	
@@ -341,13 +340,15 @@ public final class Grafo{
 //    		p = calcula o vértice de distancia mínima onde p  IN
 //    		IN = IN  {p}
     		IN.add(this.vertices.get(posicaoMenorValor(distancias)));
-    		--quantVerticesForaDeIN;
     		
 //    		Para todos os vértices z não pertencentes a IN faça
-    		for(int i = 0; i < quantVerticesForaDeIN; ++i){
-//    			distanciaAnterior = d[z]
-//    			d[z] = min(d[z], d[p] + A[p,z])
-//    			Se d[z]  distanciaAnterior então s[z] = p
+    		for(int i = 0; i < this.vertices.size(); ++i){
+    			if(!this.existe(this.vertices.get(i), IN)){ //vértice não pertence a IN
+    				
+//        			distanciaAnterior = d[z]
+//        			d[z] = min(d[z], d[p] + A[p,z])
+//        			Se d[z]  distanciaAnterior então s[z] = p	
+    			}
     		}//Fim para
     	}//Fim Enquanto
 
