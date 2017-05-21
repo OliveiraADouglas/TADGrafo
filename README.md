@@ -2,7 +2,7 @@
 Tipo abstrato de dados para controlar um grafo
 
 Autor: Douglas Almeida de Oliveira
-Última atualização: 17/05/2017 13h
+Última atualização: 17/05/2017 19h
 
 Update log:
 * Classe Grafo:
