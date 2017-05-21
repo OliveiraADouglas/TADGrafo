@@ -24,7 +24,8 @@ public class TrabalhoGrafos {
                      matrizAdjacencias = isCompleto + 1,
                      matrizPeso = matrizAdjacencias + 1,
                      caminhoEuler = matrizPeso + 1,
-					 warshall = caminhoEuler + 1;
+					 menorCaminho = caminhoEuler + 1,
+    				 warshall = menorCaminho + 1;
                      
     static String caminhoGrafo = "/home/douglas/.workspace/TrabalhoGrafos/src/Exemplos Grafos/grafoConexo3Vertices";
 
@@ -165,6 +166,10 @@ public class TrabalhoGrafos {
                 	g.setDirigido(b);
                 	System.out.println();
                 	break;
+                	
+                case menorCaminho:
+                	g.getCaminhoMinimo(g.getVertice(0), g.getVertice(g.getQuantVertice() - 1));
+                	break;
                     
                 case sair:
                     System.out.println("Sair");
@@ -192,6 +197,7 @@ public class TrabalhoGrafos {
         System.out.println(matrizAdjacencias + " - Mostrar matriz de adjacências");
         System.out.println(matrizPeso + " - Mostrar matriz de Pesos");
         System.out.println(caminhoEuler + " - Mostrar caminho de Euler");
+        System.out.println(menorCaminho + " - Mostrar menor caminho");
         System.out.println(warshall + " - Aplicar Algoritmo de Warshall na matriz de adjacências");
         System.out.println(sair + " - Sair ");
     }
