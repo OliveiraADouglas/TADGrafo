@@ -2,7 +2,7 @@
 Tipo abstrato de dados para controlar um grafo
 
 Autor: Douglas Almeida de Oliveira
-Última atualização: 17/05/2017 19h
+Última atualização: 25/05/2017 9h
 
 Update log:
 * Classe Grafo:
@@ -27,6 +27,7 @@ Update log:
 	- Método privado que põe 0 em todas as posições de uma matriz. (11/05/2017)
 	- Método privado que calcula o menor valor de uma lista float (17/05/2017)
 	- Calcula o caminho mínimo entre dois vértices com algoritmo de Dijkstra. (17/05/2017) INCOMPLETO
+	- Algoritmo floyd. 25/05/17
 
 	- Métodos relacionados a Vértices:
 		- Adiciona.
