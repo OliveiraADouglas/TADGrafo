@@ -418,11 +418,6 @@ for (z = 1; z < n; z++)
 }*/
 
     public float[][] getFloyd(){	
-	
-        ArrayList<Float> distancias = new ArrayList<Float>();
-    	ArrayList<Vertice> caminho = new ArrayList<Vertice>(),
-        IN = new ArrayList<Vertice>();
-        
 		float A[][] = this.getMatrizPeso();
 		int n = this.vertices.size();
                 
@@ -437,13 +432,11 @@ for (z = 1; z < n; z++)
 						A[i][j] = A[i][k] + A[k][j];
 					}
 			    }
-		        }	
-                }
-                return A;
+			}	
+		}
+		return A;
     }
-    void getFloyd(boolean b) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    
 
 //    Métodos de vertices
     public void addVertice(Vertice vertice){ 

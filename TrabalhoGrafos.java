@@ -25,10 +25,11 @@ public class TrabalhoGrafos {
                      matrizAdjacencias = isCompleto + 1,
                      matrizPeso = matrizAdjacencias + 1,
                      caminhoEuler = matrizPeso + 1,
-		     warshall = caminhoEuler + 1,
-                     floyd = warshall + 1;
+                     warshall = caminhoEuler + 1,
+                     floyd = warshall + 1,
+                     dijkstra = floyd + 1;
                      
-    static String caminhoGrafo = "\\C:\\Users\\BRUNA\\Desktop\\TADGrafo\\arquivoExemploGrafo.txt";
+    static String caminhoGrafo = "/home/douglas/Faculdade/Codigos/TADGrafo/Exemplos Grafos/grafo";
 
 	private static Scanner entrada;
     
@@ -162,8 +163,12 @@ public class TrabalhoGrafos {
                     break;
                     
                 case floyd:
-                    g.getFloyd(true);
+                    g.getFloyd();
                     break;
+                    
+                case dijkstra:
+                	g.getCaminhoMinimo(g.getVertice("x"), g.getVertice("y"));
+                	break;
                     
                 case mudarDirigido:
                 	System.out.print("true/false: ");
@@ -200,6 +205,7 @@ public class TrabalhoGrafos {
         System.out.println(caminhoEuler + " - Mostrar caminho de Euler");
         System.out.println(warshall + " - Aplicar Algoritmo de Warshall na matriz de adjacências");
         System.out.println(floyd + " - Aplicar Algoritmo de Floyd na matriz peso");
+        System.out.println(dijkstra + " - Mostrar menor caminho entre dois vertices");
         System.out.println(sair + " - Sair ");
     }
 }
