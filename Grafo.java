@@ -322,7 +322,8 @@ public final class Grafo{
     	ArrayList<Float> distancias = new ArrayList<Float>();
     	ArrayList<Vertice> caminho = new ArrayList<Vertice>(),
     					   IN = new ArrayList<Vertice>();
-    	int posicaoVNaMatriz, //guarda a posiçao da linha da matriz das adjacencias de um vertice
+    	int quantVerticesForaDeIN = this.vertices.size() - 1, //guarda a quantidade de vértices que estão fora da lista IN
+    		posicaoVNaMatriz, //guarda a posiçao da linha da matriz das adjacencias de um vertice
     		quantVGrafo = this.vertices.size(); //guarda a quantidade de vertices no grafo
     	float matrizPeso[][] = this.getMatrizPeso();
     	
@@ -340,15 +341,13 @@ public final class Grafo{
 //    		p = calcula o vértice de distancia mínima onde p  IN
 //    		IN = IN  {p}
     		IN.add(this.vertices.get(posicaoMenorValor(distancias)));
+    		--quantVerticesForaDeIN;
     		
 //    		Para todos os vértices z não pertencentes a IN faça
-    		for(int i = 0; i < this.vertices.size(); ++i){
-    			if(!this.existe(this.vertices.get(i), IN)){ //vértice não pertence a IN
-    				
-//        			distanciaAnterior = d[z]
-//        			d[z] = min(d[z], d[p] + A[p,z])
-//        			Se d[z]  distanciaAnterior então s[z] = p	
-    			}
+    		for(int i = 0; i < quantVerticesForaDeIN; ++i){
+//    			distanciaAnterior = d[z]
+//    			d[z] = min(d[z], d[p] + A[p,z])
+//    			Se d[z]  distanciaAnterior então s[z] = p
     		}//Fim para
     	}//Fim Enquanto
 
@@ -381,7 +380,71 @@ public final class Grafo{
             System.out.println("Existe caminho");
         }
     }
-    
+	
+	//Algoritmo de Ford(matriz booleana nxn mp,v1){
+/*public int[][] getFord(){	
+	
+        ArrayList<Float> distancias = new ArrayList<Float>();
+    	ArrayList<Vertice> caminho = new ArrayList<Vertice>(),
+        IN = new ArrayList<Vertice>();
+        
+	float A[][] = this.getMatrizPeso();
+	int n = this.vertices.size();
+	
+	d[x] = 0;
+	v = vDestino;
+for (z = 1; z < n; z++)
+{
+	if (z = x)
+	{
+		d[z] = A[x,z];
+	}else
+			d[z] = A[x,z];
+}
+	for (i=1;i<n-1;;i++)
+	{
+		for (u =1;u<n;u++)
+		{
+			for (v=1;v<v++;
+			{
+				distanciaAnterior = d[v];
+				d[v] = min(d[v], d[u] + A[u,v]);
+				if(d[v]!= distanciaAnterior 
+				s[v]=u;
+			}
+		}
+	}
+	
+}*/
+
+    public float[][] getFloyd(){	
+	
+        ArrayList<Float> distancias = new ArrayList<Float>();
+    	ArrayList<Vertice> caminho = new ArrayList<Vertice>(),
+        IN = new ArrayList<Vertice>();
+        
+		float A[][] = this.getMatrizPeso();
+		int n = this.vertices.size();
+                
+		for (int k = 1; k < n; k++)
+		{
+			for (int i = 1; i < n; i++)
+			{
+				for (int j = 1; j < n; j++)
+				{
+					if(A[i][k] + A[k][j] < A[i][j])
+					{
+						A[i][j] = A[i][k] + A[k][j];
+					}
+			    }
+		        }	
+                }
+                return A;
+    }
+    void getFloyd(boolean b) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 //    Métodos de vertices
     public void addVertice(Vertice vertice){ 
         if(!verticeExist(vertice)){ //se o vertice não existe, então pode ser adicionado
@@ -676,4 +739,5 @@ public final class Grafo{
             System.out.println(ex);
         }
     }//fim da função carregarArquivo
-}//fim da classe
+
+    }//fim da classe
