@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class TrabalhoGrafos {
+public class TADGrafo {
     //constantes para facilitar a organização do menu
     static final int sair = 0,
                      
@@ -29,9 +29,9 @@ public class TrabalhoGrafos {
                      floyd = warshall + 1,
                      dijkstra = floyd + 1;
                      
-    static String caminhoGrafo = "/home/douglas/Faculdade/Codigos/TADGrafo/Exemplos Grafos/grafo";
+    static String caminhoGrafo = "C:/Users/029151129/Desktop/TADGrafo-master/grafoConexo3Vertices";
 
-	private static Scanner entrada;
+    private static Scanner entrada;
     
     public static void main(String[] args) {
         Grafo g = new Grafo(caminhoGrafo);
