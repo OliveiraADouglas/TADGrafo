@@ -26,6 +26,7 @@
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.InputMismatchException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -296,18 +297,18 @@ public final class Grafo{
 
     private int posicaoMenorValor(ArrayList<Float> l){ //retorna a posicao do menor valor da lista
     	int posicao = 0;
-    	float menor = 0;
+    	float menorValor = 1;
     	
-    	//põe o primeiro menor valor encontrado na lista
-    	while (menor <= 0){
-    		menor = l.get(posicao);
-    		++posicao;
-    	}
+//    	//põe o primeiro menor valor encontrado na lista
+//    	while (menor <= 1){
+//    		menor = l.get(posicao);
+//    		++posicao;
+//    	}
     	
     	//calcula o menor valor
     	for(int i = 0; i < l.size(); ++i){
-    		if(l.get(i) < menor && l.get(i) > 0.0){ 
-    			menor = l.get(i);
+    		if(l.get(i) <= menorValor && l.get(i) >= 1.0){ 
+    			menorValor = l.get(i);
     			posicao = i;
     		}    			
     	}
@@ -321,8 +322,8 @@ public final class Grafo{
 //    	Inicializa o conjunto IN e os vetores distancias e caminho
     	ArrayList<Float> distancias = new ArrayList<Float>();
     	ArrayList<Vertice> caminho = new ArrayList<Vertice>(),
-    					   IN = new ArrayList<Vertice>();
-    	int quantVerticesForaDeIN = this.vertices.size() - 1, //guarda a quantidade de vértices que estão fora da lista IN
+    			   IN = new ArrayList<Vertice>();
+    	int //quantVerticesForaDeIN = this.vertices.size() - 1, //guarda a quantidade de vértices que estão fora da lista IN
     		posicaoVNaMatriz, //guarda a posiçao da linha da matriz das adjacencias de um vertice
     		quantVGrafo = this.vertices.size(); //guarda a quantidade de vertices no grafo
     	float matrizPeso[][] = this.getMatrizPeso();
@@ -340,14 +341,25 @@ public final class Grafo{
 
 //    		p = calcula o vértice de distancia mínima onde p  IN
 //    		IN = IN  {p}
-    		IN.add(this.vertices.get(posicaoMenorValor(distancias)));
-    		--quantVerticesForaDeIN;
+                int p = posicaoMenorValor(distancias);
+    		IN.add(this.vertices.get(p));
+    		//--quantVerticesForaDeIN;
     		
 //    		Para todos os vértices z não pertencentes a IN faça
-    		for(int i = 0; i < quantVerticesForaDeIN; ++i){
+//    		for(int i = 0; i < quantVerticesForaDeIN; ++i){
+                for(int i = 0; i < quantVGrafo; ++i){
+                    if (!this.existe(this.vertices.get(i), IN)){
 //    			distanciaAnterior = d[z]
+                        float distanciaAnterior = distancias.get(p),
+                              novaDistancia = matrizPeso[p][i] + distancias.get(p);                        
+                        distancias.set(i, novaDistancia);
+                        
 //    			d[z] = min(d[z], d[p] + A[p,z])
+                        if (distanciaAnterior > novaDistancia){
+                            caminho.set(i, IN.get(IN.size() - 1));
+                        }
 //    			Se d[z]  distanciaAnterior então s[z] = p
+                    }// Fim if de todos os vertices não pertencentes a IN
     		}//Fim para
     	}//Fim Enquanto
 
@@ -729,8 +741,15 @@ for (z = 1; z < n; z++)
             
         } catch (FileNotFoundException ex) {
             //Permite que o programa não trave caso o arquivo solicitado não exista
-            System.out.println(ex);
+            System.out.println("Arquivo não existe");
+        } catch (InputMismatchException ex){
+            //Permite que o programa não trave caso haja alguma inconsistencia no arquivo
+            System.out.println("Arquivo com formato incorreto");            
+        } catch (Exception ex){
+            //Caso haja algum outro erro
+            System.out.println("Erro: " + ex);
         }
+        
     }//fim da função carregarArquivo
 
     }//fim da classe
