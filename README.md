@@ -26,7 +26,7 @@ Update log:
 	- Método privado que faz operação or lógico entre duas variáveis numéricas sendo que devem ter valor 1 ou 0. (11/05/2017)
 	- Método privado que põe 0 em todas as posições de uma matriz. (11/05/2017)
 	- Método privado que calcula o menor valor de uma lista float (17/05/2017)
-	- Calcula o caminho mínimo entre dois vértices com algoritmo de Dijkstra. (17/05/2017) INCOMPLETO
+	- Calcula o caminho mínimo entre dois vértices com algoritmo de Dijkstra. (01/06/2017) INCOMPLETO
 	- Algoritmo floyd. 25/05/17
 
 	- Métodos relacionados a Vértices:
